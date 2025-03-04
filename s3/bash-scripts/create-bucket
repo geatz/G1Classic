@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+echo "create bucket"
+if [ $# -eq 0 ]; then
+    echo "No argument provided. Please pass an argument."
+    exit 1  # Exit with an error code
+fi
+
+aws s3api create-bucket --bucket $1
