@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+
+if [ -z "$1"]; then
+ echo "Arguemnt not provided"
+else
+ export VPC_ID="$1"
+fi
+
+if [ -z "$1"]; then
+ echo "Arguemnt not provided"
+else
+ export IG_ID="$1"
+fi
+
+#detach VPC
+
+aws ec2 detach-internet-gateway \
+--vpc-id $VPC_ID \
+--internet-gateway-id $IG_ID
+#Delete IG
+aws ec2 delete-internet-gateway \
+--internet-gateway-id $IG_ID
+#Delete VPC
+
+aws ec2 delete-vpc \
+--vpc-id $VPC_ID
+
+

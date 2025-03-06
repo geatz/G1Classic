@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+
+#create our vpc
+VPC_ID=$(aws ec2 create-vpc \
+--cidr-block "172.16.0.0/16" \
+--region us-east-1 \
+--tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=my-new-vpc}]' \
+--query Vpc.VpcId \
+--output text
+)
+
+echo "VPC ID: $VPC_ID"
+
+# create IGW
+
+IG_ID=$(aws ec2 create-internet-gateway \
+--query InternetGateway.InternetGatewayId \
+--output text
+)
+
+echo "IG_ID: $IG_ID"
+#attach IGW
+aws ec2 attach-internet-gateway \
+--internet-gateway-id $IG_ID \
+--vpc-id $VPC_ID
+#Create SUbnet
+
+SUBNET_ID=$(aws ec2 create-subnet --vpc-id $VPC_ID --cidr-block 172.16.0.0/20 --query Subnet.SubnetId --output text)
+
+echo "Subnet ID: $SUBNET_ID"
+
+#associate SUbnet
+
+
+# add route to IGW
